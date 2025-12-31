@@ -13,7 +13,7 @@ const AppState = {
     children: [
         { 
             id: '1', 
-            name: 'Produce', 
+            name: 'Prentiss', 
             grade: 4, 
             avatar: '🧑‍💻', 
             track: 'Game Design',
