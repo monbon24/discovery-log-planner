@@ -15,10 +15,6 @@ const Destinations = {
     },
 
     render() {
-        // Only render if we are in dashboard view
-        // Actually, we might want to render it always if hidden, but optimization is good.
-        // For now, simple render.
-        
         const container = document.getElementById('destinations-grid');
         if (!container) return;
 
@@ -26,16 +22,15 @@ const Destinations = {
         const currentChildId = AppState.currentChild;
         const currentChildData = AppState.children.find(c => c.id === currentChildId);
 
-        // Filter by track/child if specific child selected
-        if (currentChildId !== 'all') {
-             // Basic filter logic: Map track to destinations or use child ID if added to destination model
-             // Currently destinations have 'trackId'. 
-             // Produce (id 1) -> Game Design
-             // Faye (id 2) -> Performance Arts
-             
-             if (currentChildData) {
-                 items = items.filter(d => d.trackId === currentChildData.track || d.trackId === 'General');
-             }
+        // In Family view, show ALL destinations
+        // In child view, show their track + shared tracks
+        if (currentChildId !== 'all' && currentChildData) {
+            // Show destinations matching child's track OR shared paths like Life Skills, Service
+            const sharedTracks = ['Life Skills', 'Service', 'Culinary', 'Healthcare', 'Aviation'];
+            items = items.filter(d => 
+                d.trackId === currentChildData.track || 
+                sharedTracks.includes(d.trackId)
+            );
         }
 
         if (items.length === 0) {
@@ -49,16 +44,18 @@ const Destinations = {
         }
 
         container.innerHTML = items.map(dest => {
-            const isFuture = currentChildData ? dest.targetAge > (currentChildData.grade + 6) : true; // visual approximation
-            const yearsLeft = currentChildData ? dest.targetAge - (currentChildData.grade + 6) : '?'; // Rough age calc: Grade+6
+            const statusColor = dest.status === 'in-progress' 
+                ? 'bg-green-100 text-green-700 border-green-300' 
+                : 'bg-slate-100 text-slate-500 border-slate-200';
+            const statusLabel = dest.status === 'in-progress' ? '🚀 Active' : '📌 Future';
 
             return `
             <div class="bg-white rounded-3xl border-4 border-sky-100 p-6 relative overflow-hidden group hover:border-sunshine transition-all hover:shadow-xl hover:-translate-y-1">
-                <!-- Postcard Stamp Look -->
-                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                    <div class="border-4 border-dashed border-passportBlue rounded-full w-24 h-24 flex items-center justify-center transform rotate-12">
-                        <span class="font-bold text-xs uppercase text-passportBlue">Checked</span>
-                    </div>
+                <!-- Status Badge -->
+                <div class="absolute top-4 right-4 z-20">
+                    <span class="text-xs font-bold px-2 py-1 rounded-full border ${statusColor}">
+                        ${statusLabel}
+                    </span>
                 </div>
 
                 <div class="relative z-10">
@@ -70,19 +67,19 @@ const Destinations = {
                         </div>
                     </div>
                     
-                    <h3 class="text-2xl font-fun font-bold text-passportBlue mb-2">${dest.title}</h3>
+                    <h3 class="text-xl font-fun font-bold text-passportBlue mb-1">${dest.title}</h3>
+                    <p class="text-xs text-slate-400 mb-3">${dest.trackId} Track</p>
                     
-                    <div class="w-full bg-sky-50 rounded-full h-3 mb-4 overflow-hidden">
-                        <div class="bg-sunshine h-full w-1/3 rounded-full"></div> 
-                        <!-- Mock progress: 1/3 -->
+                    <div class="w-full bg-sky-50 rounded-full h-2 mb-4 overflow-hidden">
+                        <div class="bg-gradient-to-r from-sunshine to-amber-500 h-full w-1/4 rounded-full"></div>
                     </div>
 
-                    <div class="bg-sky-50 rounded-xl p-4">
-                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Visa Requirements</p>
-                        <ul class="space-y-2">
+                    <div class="bg-sky-50 rounded-xl p-3">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Requirements</p>
+                        <ul class="space-y-1.5">
                             ${dest.requirements.map(req => `
-                                <li class="flex items-center gap-2 text-sm text-deepOcean font-medium">
-                                    <span class="w-4 h-4 rounded-full border-2 border-green-400 flex items-center justify-center text-[10px] text-green-600 bg-green-50">✓</span>
+                                <li class="flex items-center gap-2 text-xs text-deepOcean font-medium">
+                                    <span class="w-3.5 h-3.5 rounded-full border-2 border-slate-300 flex items-center justify-center text-[8px] text-slate-400 bg-white">○</span>
                                     ${req}
                                 </li>
                             `).join('')}

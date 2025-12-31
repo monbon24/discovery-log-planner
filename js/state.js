@@ -38,37 +38,98 @@ const AppState = {
     lessons: [],
     evidence: [], 
     
+    // DC Homeschool Curriculum Requirements (OSSE)
+    dcCurriculum: {
+        subjects: [
+            { id: 'ela', name: 'Language Arts', icon: '📖', keywords: ['essay', 'writing', 'reading', 'book', 'literature', 'grammar', 'spelling', 'vocabulary', 'poetry'] },
+            { id: 'math', name: 'Mathematics', icon: '🔢', keywords: ['math', 'algebra', 'geometry', 'calculus', 'arithmetic', 'numbers', 'equations', 'fractions'] },
+            { id: 'science', name: 'Science', icon: '🔬', keywords: ['science', 'biology', 'chemistry', 'physics', 'experiment', 'lab', 'nature', 'anatomy'] },
+            { id: 'social', name: 'Social Studies', icon: '🌍', keywords: ['history', 'geography', 'civics', 'government', 'culture', 'society', 'economics', 'politics'] },
+            { id: 'art', name: 'Art', icon: '🎨', keywords: ['art', 'drawing', 'painting', 'sculpture', 'craft', 'design', 'color', 'sketch'] },
+            { id: 'music', name: 'Music', icon: '🎵', keywords: ['music', 'piano', 'guitar', 'singing', 'instrument', 'song', 'rhythm', 'melody', 'band', 'choir'] },
+            { id: 'health', name: 'Health', icon: '❤️', keywords: ['health', 'nutrition', 'first aid', 'wellness', 'hygiene', 'safety', 'mental health'] },
+            { id: 'pe', name: 'Physical Education', icon: '🏃', keywords: ['PE', 'sports', 'exercise', 'fitness', 'gym', 'athletics', 'running', 'swimming', 'taekwondo', 'martial arts'] }
+        ],
+        gradeLevels: {
+            elementary: { grades: [1, 2, 3, 4, 5], label: 'Elementary (K-5)' },
+            middle: { grades: [6, 7, 8], label: 'Middle School (6-8)' },
+            high: { grades: [9, 10, 11, 12], label: 'High School (9-12)' }
+        }
+    },
+
     // Travel / Adventure Mode Data
     mission: "To raise curious, creative, and capable world citizens who are ready for their biggest dreams.",
     destinations: [
         {
             id: 'd1',
             title: 'MIT / Tech Leader',
-            trackId: 'Game Design', // Linked to Produce
+            trackId: 'Game Design',
             targetAge: 18,
-            currentAge: 10,
             image: '🚀',
-            requirements: ['Calculus Mastery', 'Released 3 Games', 'Python Cert'],
+            requirements: ['Calculus Mastery', 'Released 3 Games', 'Python Certification', 'Physics Fundamentals'],
             status: 'in-progress'
         },
         {
             id: 'd2',
             title: 'Julliard / Broadway',
-            trackId: 'Performance Arts', // Linked to Faye
+            trackId: 'Performance Arts',
             targetAge: 18,
-            currentAge: 12,
             image: '🎭',
-            requirements: ['Monologue Portfolio', 'Vocal Range C6', 'Regional Theater'],
+            requirements: ['Monologue Portfolio', 'Vocal Range C6', 'Regional Theater Credits', 'Dance Training'],
             status: 'in-progress'
         },
         {
             id: 'd3',
             title: 'Le Cordon Bleu',
-            trackId: 'Culinary', // Maybe shared?
+            trackId: 'Culinary',
             targetAge: 19,
-            currentAge: 11, // Avg
             image: '👨‍🍳',
-            requirements: ['Knife Skills', 'Sauce Mastery', 'Pastry Basics'],
+            requirements: ['Knife Skills', 'Sauce Mastery', 'Pastry Basics', 'Food Safety Cert'],
+            status: 'future'
+        },
+        {
+            id: 'd4',
+            title: 'Taekwondo Instructor',
+            trackId: 'Martial Arts',
+            targetAge: 18,
+            image: '🥋',
+            requirements: ['Black Belt (2nd Dan+)', 'Competition Experience', 'Teaching Certification', 'First Aid/CPR'],
+            status: 'in-progress'
+        },
+        {
+            id: 'd5',
+            title: 'Pilot (FAA Licensed)',
+            trackId: 'Aviation',
+            targetAge: 17,
+            image: '✈️',
+            requirements: ['Ground School', '40+ Flight Hours', 'FAA Medical Exam', 'Written Test Pass'],
+            status: 'future'
+        },
+        {
+            id: 'd6',
+            title: 'Homemaker Excellence',
+            trackId: 'Life Skills',
+            targetAge: 18,
+            image: '🏠',
+            requirements: ['Budgeting & Finance', 'Meal Planning & Cooking', 'Home Maintenance', 'Childcare Basics'],
+            status: 'future'
+        },
+        {
+            id: 'd7',
+            title: 'Military Officer',
+            trackId: 'Service',
+            targetAge: 18,
+            image: '🎖️',
+            requirements: ['Physical Fitness Standards', 'Leadership Training', 'Academy/ROTC Application', 'Community Service'],
+            status: 'future'
+        },
+        {
+            id: 'd8',
+            title: 'Physical Therapist (DPT)',
+            trackId: 'Healthcare',
+            targetAge: 22,
+            image: '🏥',
+            requirements: ['Pre-Med Biology', 'Anatomy & Physiology', 'Volunteer PT Hours', 'DPT Program Admission'],
             status: 'future'
         }
     ],

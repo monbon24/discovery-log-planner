@@ -40,37 +40,59 @@ const Evidence = {
         }
     },
 
-    handleUpload() {
-        // Simulation: In a real app, this would be a file input
-        // For local demo, we prompt for details and use a placeholder image or logic
+    // Smart categorization using DC Curriculum keywords
+    categorize(description) {
+        const text = description.toLowerCase();
+        const subjects = AppState.dcCurriculum?.subjects || [];
         
-        const description = prompt("Description of work (e.g., 'Math Worksheet 4.2' or 'Oil Painting'):");
+        for (const subject of subjects) {
+            for (const keyword of subject.keywords) {
+                if (text.includes(keyword.toLowerCase())) {
+                    return { id: subject.id, name: subject.name, icon: subject.icon };
+                }
+            }
+        }
+        return { id: 'general', name: 'General', icon: '📂' };
+    },
+
+    handleUpload() {
+        // Prompt for description (this drives AI categorization)
+        const description = prompt("Describe the work (AI will auto-categorize based on keywords):\n\nExamples:\n• 'Math worksheet on fractions'\n• 'Essay about the Civil War'\n• 'Piano practice video'");
         if (!description) return;
 
-        const tag = prompt("Tag (Math, Reading, Best Work, Art, Project):", "Best Work");
-        const type = prompt("Type (Image, Document, Link):", "Image");
+        // Auto-categorize based on description
+        const category = this.categorize(description);
         
-        // Mock data
+        // Ask for additional tag if user wants to override
+        const tagOptions = ['Best Work', 'In Progress', 'Needs Review', 'Competition Ready'];
+        const tag = prompt(`Auto-detected: ${category.icon} ${category.name}\n\nAdd a quality tag (optional):\n${tagOptions.join(', ')}`, 'Best Work');
+        
+        const type = prompt("Type (Image, Document, Video, Link):", "Document");
+        
+        // Build evidence item with smart categorization
         const newItem = {
             id: Date.now().toString(),
-            childId: AppState.currentChild === 'all' ? '1' : AppState.currentChild, // Default to child 1 if 'all'
+            childId: AppState.currentChild === 'all' ? '1' : AppState.currentChild,
             description,
+            category: category.id,
+            categoryName: category.name,
+            categoryIcon: category.icon,
             tag: tag || 'General',
-            type: type || 'Image',
+            type: type || 'Document',
             date: new Date().toISOString(),
-            url: `https://via.placeholder.com/300x200?text=${encodeURIComponent(description)}` // Placeholder
+            url: `https://via.placeholder.com/300x200?text=${encodeURIComponent(description.slice(0, 20))}`
         };
 
         if (!AppState.evidence) AppState.evidence = [];
         AppState.evidence.unshift(newItem);
         
         AppState.notify('evidence');
-        Storage.save(); // Save to local storage
+        Storage.save();
         
-        showToast("Work uploaded to locker! 📸");
+        showToast(`✅ Categorized as ${category.icon} ${category.name}!`);
         
-        // Gamification: Analyzing evidence earns XP too!
-        Gamification.awardXP(newItem.childId, 5); // Small bonus for documenting
+        // Gamification bonus
+        Gamification.awardXP(newItem.childId, 5);
     },
 
     render(filter = 'All') {
@@ -99,23 +121,30 @@ const Evidence = {
         }
 
         grid.innerHTML = items.map(item => `
-            <div class="bg-white p-3 rounded-xl shadow-sm border border-softPeach hover:shadow-md transition-all group relative">
-                <div class="aspect-video bg-softPeach/30 rounded-lg mb-3 overflow-hidden flex items-center justify-center">
+            <div class="bg-white p-3 rounded-xl shadow-sm border border-skyBlue hover:shadow-md transition-all group relative">
+                <div class="aspect-video bg-sky-50 rounded-lg mb-3 overflow-hidden flex items-center justify-center">
                     ${item.type === 'Image' 
                         ? `<img src="${item.url}" class="w-full h-full object-cover">` 
-                        : `<span class="text-4xl">📄</span>`}
+                        : `<span class="text-5xl">${item.categoryIcon || '📄'}</span>`}
                 </div>
                 <div class="flex justify-between items-start">
                     <div>
-                        <h4 class="font-medium text-charcoal text-sm">${item.description}</h4>
-                        <span class="text-xs text-slate bg-softPeach/50 px-2 py-0.5 rounded-full mt-1 inline-block">
-                            ${item.tag}
-                        </span>
+                        <h4 class="font-medium text-passportBlue text-sm">${item.description}</h4>
+                        <div class="flex gap-2 mt-1 flex-wrap">
+                            <span class="text-xs bg-skyBlue text-passportBlue px-2 py-0.5 rounded-full font-medium">
+                                ${item.categoryIcon || '📂'} ${item.categoryName || item.tag}
+                            </span>
+                            ${item.tag !== item.categoryName ? `
+                                <span class="text-xs bg-sunshine text-passportBlue px-2 py-0.5 rounded-full">
+                                    ${item.tag}
+                                </span>
+                            ` : ''}
+                        </div>
                     </div>
-                    <button class="text-slate hover:text-dustyRose opacity-0 group-hover:opacity-100 transition-opacity" 
+                    <button class="text-slate-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity" 
                             onclick="Evidence.deleteItem('${item.id}')">✕</button>
                 </div>
-                <div class="mt-2 text-[10px] text-slate/60 text-right">
+                <div class="mt-2 text-[10px] text-slate-400 text-right">
                     ${new Date(item.date).toLocaleDateString()}
                 </div>
             </div>
