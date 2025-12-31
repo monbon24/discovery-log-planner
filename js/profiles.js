@@ -23,17 +23,16 @@ const Profiles = {
         
         container.innerHTML = AppState.children.map(child => {
             const isActive = AppState.currentChild === child.id;
-            // Active: Passport Blue filled. Inactive: Hover effect.
             const activeClass = isActive 
-                ? 'bg-passportBlue text-white shadow-sm ring-2 ring-sunshine' 
-                : 'bg-white text-passportBlue hover:bg-sky-100 border border-sky-200';
+                ? 'bg-gradient-to-r from-violet-600 to-cyan-600 text-white shadow-glow ring-1 ring-violet-400/50' 
+                : 'bg-card text-textSecondary hover:bg-border hover:text-textPrimary border border-transparent';
             
             return `
-                <button class="flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-bold transition-all ${activeClass}" 
+                <button class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${activeClass}" 
                         onclick="App.setChild('${child.id}')">
-                    <span class="text-lg filter drop-shadow-sm">${child.avatar || '👤'}</span>
+                    <span class="text-base">${child.avatar || '◉'}</span>
                     <span class="hidden md:inline">${child.name}</span>
-                    ${isActive ? `<span class="text-[10px] bg-sunshine text-passportBlue px-1.5 rounded-full shadow-sm">Lvl ${child.level}</span>` : ''}
+                    ${isActive ? `<span class="text-[10px] bg-white/20 px-1.5 rounded">Lv${child.level}</span>` : ''}
                 </button>
             `;
         }).join('');
@@ -41,14 +40,14 @@ const Profiles = {
         // Family View Option
         const isBothActive = AppState.currentChild === 'all';
         const bothActiveClass = isBothActive 
-            ? 'bg-passportBlue text-white shadow-sm ring-2 ring-sunshine' 
-            : 'bg-white text-passportBlue hover:bg-sky-100 border border-sky-200';
+            ? 'bg-gradient-to-r from-violet-600 to-cyan-600 text-white shadow-glow ring-1 ring-violet-400/50' 
+            : 'bg-card text-textSecondary hover:bg-border hover:text-textPrimary border border-transparent';
         
         container.innerHTML += `
-            <button class="flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-bold transition-all ${bothActiveClass}"
+            <button class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${bothActiveClass}"
                     onclick="App.setChild('all')">
-                <span class="text-lg">👨‍👩‍👧‍👦</span>
-                <span class="hidden md:inline">Family</span>
+                <span class="text-base">◎</span>
+                <span class="hidden md:inline">All</span>
             </button>
         `;
     },
