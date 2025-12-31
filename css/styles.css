@@ -1,0 +1,254 @@
+/* ===== Cozy Homeschool Planner Styles ===== */
+
+/* Base transitions */
+* {
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Navigation Buttons */
+.nav-btn {
+    @apply px-3 py-2 rounded-xl text-sm font-medium text-slate hover:bg-softPeach/50 hover:text-charcoal;
+}
+
+.nav-btn.active {
+    @apply bg-terracotta text-white shadow-md;
+}
+
+/* Child Selector Buttons */
+.child-btn {
+    @apply flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium text-slate bg-white/50 border border-softPeach/30 hover:border-terracotta/30 hover:bg-white;
+}
+
+.child-btn.active {
+    @apply bg-white border-terracotta text-charcoal shadow-sm;
+}
+
+.child-avatar {
+    @apply w-6 h-6 rounded-full flex items-center justify-center text-xs text-white font-bold;
+}
+
+.child-name {
+    @apply hidden md:inline;
+}
+
+/* Progress Cards */
+.progress-card {
+    @apply bg-white/70 backdrop-blur-sm rounded-xl p-4 border border-softPeach/30;
+}
+
+.progress-bar-container {
+    @apply w-full h-3 bg-softPeach/30 rounded-full overflow-hidden;
+}
+
+.progress-bar {
+    @apply h-full rounded-full transition-all duration-500 ease-out;
+}
+
+/* Week Navigation */
+.week-nav-btn {
+    @apply px-3 py-1.5 text-sm rounded-lg bg-white/50 border border-softPeach/30 text-slate hover:bg-white hover:border-terracotta/30;
+}
+
+/* Week Grid */
+.week-grid {
+    @apply grid grid-cols-1 md:grid-cols-5 gap-4;
+}
+
+.day-column {
+    @apply bg-white/50 backdrop-blur-sm rounded-xl border border-softPeach/30 overflow-hidden min-h-[200px];
+}
+
+.day-column.today {
+    @apply border-terracotta/50 bg-softPeach/20;
+}
+
+.day-header {
+    @apply px-4 py-3 bg-cream/50 border-b border-softPeach/30 font-semibold text-charcoal text-center;
+}
+
+.day-column.today .day-header {
+    @apply bg-terracotta/10 text-terracotta;
+}
+
+.day-lessons {
+    @apply p-3 space-y-2;
+}
+
+/* Lesson Cards */
+.lesson-card {
+    @apply bg-white rounded-lg p-3 border-l-4 shadow-sm hover:shadow-md cursor-pointer;
+}
+
+.lesson-card.completed {
+    @apply opacity-60;
+}
+
+.lesson-card.completed .lesson-title {
+    @apply line-through;
+}
+
+.lesson-checkbox {
+    @apply w-5 h-5 rounded-md border-2 cursor-pointer appearance-none;
+    transition: all 0.2s ease;
+}
+
+.lesson-checkbox:checked {
+    @apply bg-sage border-sage;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3E%3C/svg%3E");
+}
+
+.lesson-title {
+    @apply font-medium text-charcoal text-sm;
+}
+
+.lesson-subject {
+    @apply text-xs text-slate mt-1;
+}
+
+.reschedule-btn {
+    @apply mt-2 px-2 py-1 text-xs rounded-md bg-honey/20 text-charcoal hover:bg-honey/40 font-medium;
+}
+
+/* Subject Form Card */
+.subject-form-card {
+    @apply bg-white/70 backdrop-blur-sm rounded-xl p-5 border border-softPeach/30;
+}
+
+/* Primary Button */
+.btn-primary {
+    @apply px-4 py-2 rounded-lg bg-terracotta text-white font-medium hover:bg-terracotta/90 shadow-md hover:shadow-lg active:scale-[0.98];
+}
+
+/* Color Preset Buttons */
+.color-preset {
+    @apply w-7 h-7 rounded-full border-2 border-white shadow-sm hover:scale-110 active:scale-95;
+}
+
+/* Subject Cards */
+.subject-card {
+    @apply bg-white rounded-lg p-3 border-l-4 shadow-sm flex items-center justify-between;
+}
+
+.subject-card .subject-name {
+    @apply font-medium text-charcoal;
+}
+
+.btn-delete {
+    @apply px-2 py-1 text-xs rounded bg-dustyRose/20 text-dustyRose hover:bg-dustyRose/40;
+}
+
+/* Empty State */
+.empty-state {
+    @apply text-center py-12;
+}
+
+/* Toast Notification */
+.toast {
+    @apply fixed bottom-6 left-1/2 -translate-x-1/2 px-6 py-3 rounded-xl bg-charcoal text-white shadow-lg z-50;
+    animation: slideUp 0.3s ease;
+}
+
+.toast.hidden {
+    display: none;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+/* Celebration Overlay */
+.celebration-overlay {
+    @apply fixed inset-0 bg-white/90 backdrop-blur-md flex items-center justify-center z-50;
+    animation: fadeIn 0.5s ease;
+}
+
+.celebration-overlay.hidden {
+    display: none;
+}
+
+.celebration-content {
+    @apply text-center;
+    animation: bounceIn 0.6s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes bounceIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Today's Lesson Cards (larger) */
+#view-today .lesson-card {
+    @apply p-4;
+}
+
+#view-today .lesson-title {
+    @apply text-base;
+}
+
+#view-today .lesson-subject {
+    @apply text-sm;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .week-grid {
+        @apply space-y-4;
+    }
+    
+    .day-column {
+        @apply min-h-0;
+    }
+    
+    .day-header {
+        @apply text-left;
+    }
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Focus states */
+input:focus, select:focus, button:focus {
+    @apply outline-none ring-2 ring-terracotta/30;
+}
+
+/* Loading state */
+.loading {
+    @apply opacity-50 pointer-events-none;
+}
+
+/* Confetti animation for celebration */
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background-color: var(--color);
+    animation: confettiFall 3s ease-out forwards;
+    z-index: 60;
+}
+
+@keyframes confettiFall {
+    0% {
+        transform: translateY(-100vh) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
