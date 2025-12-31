@@ -89,11 +89,11 @@ const AppState = {
         },
         {
             id: 'd4',
-            title: 'Taekwondo Instructor',
+            title: 'Grand Master & Dojo Owner',
             trackId: 'Martial Arts',
-            targetAge: 18,
+            targetAge: 25,
             image: '🥋',
-            requirements: ['Black Belt (2nd Dan+)', 'Competition Experience', 'Teaching Certification', 'First Aid/CPR'],
+            requirements: ['Current: Youth Brown Belt', 'Win National Gold Medals', 'Earn 4th Dan Master Rank', 'Launch Own Studio'],
             status: 'in-progress'
         },
         {
